@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en"></html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vehicle Generator</title>
+    <script src="https://cdn.jsdelivr.net/npm/ol@v7.4.0/dist/ol.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol@v7.4.0/ol.css">
+    <link rel="stylesheet" href="toast.css">
+    <script src="toast.js"></script>
+    <style>
+      table {
+        border-collapse: collapse;
+        width: 100%;
+      }
+
+      th,
+      td {
+        border: 1px solid black;
+        padding: 8px;
+        text-align: center;
+      }
+
+      .green {
+        background-color: green;
+      }
+
+      .orange {
+        background-color: orange;
+      }
+
+      .red {
+        background-color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <h2>Vehicle Generator</h2>
+      <label>Number of vehicles (100 - 500):</label>
+      <input type="number" v-model="count" min="100" max="500" class="input-form" />
+      <button @click="generateVehicles" class="check">Generate Vehicles</button>
+
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Speed</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="vehicle in vehicles" :key="vehicle.id" :class="getVehicleClass(vehicle)">
+            <td>{{ vehicle.id }}</td>
+            <td>{{ vehicle.name }}</td>
+            <td>{{ vehicle.speed }}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Summary:</h3>
+      <p>Average Speed: {{ averageSpeed }}</p>
+      <p>Number of Vehicles (< 50 km/h): {{ countSpeedRange(vehicles, 0, 49) }}</p>
+      <p>Number of Vehicles (50 - 80 km/h): {{ countSpeedRange(vehicles, 50, 79) }}</p>
+      <p>Number of Vehicles (>= 80 km/h): {{ countSpeedRange(vehicles, 80, Infinity) }}</p>
+
+      <div id="map" style="width: 80%; height: 400px; margin: 0 auto;"></div>
+    </div>
+    <script src="https://unpkg.com/vue@2.6.14"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
